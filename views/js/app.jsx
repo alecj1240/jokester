@@ -1,7 +1,7 @@
-const AUTH0_CLIENT_ID = "uihfwrBSkUeTah6VblbMcsRAVfx40Rjm";
+const AUTH0_CLIENT_ID = "rrfkkl0YwwC6IX8fvplrZW4Fbcp51Ojt";
 const AUTH0_DOMAIN = "thebored.auth0.com";
 const AUTH0_CALLBACK_URL = location.href;
-const AUTH0_API_AUDIENCE = "http://localhost:3000/";
+const AUTH0_API_AUDIENCE = "AlecJonesCo";
 
 class App extends React.Component {
   parseHash() {
