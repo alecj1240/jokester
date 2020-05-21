@@ -31,6 +31,7 @@ class App extends React.Component {
       }
     });
   }
+
   setup() {
     $.ajaxSetup({
       beforeSend: (r) => {
@@ -43,6 +44,7 @@ class App extends React.Component {
       }
     });
   }
+
   setState() {
     let idToken = localStorage.getItem("id_token");
     if (idToken) {
@@ -51,11 +53,13 @@ class App extends React.Component {
       this.loggedIn = false;
     }
   }
+
   componentWillMount() {
     this.setup();
     this.parseHash();
     this.setState();
   }
+
   render() {
     if (this.loggedIn) {
       return <LoggedIn />;
@@ -80,6 +84,7 @@ class Home extends React.Component {
     });
     this.WebAuth.authorize();
   }
+
   render() {
     return (
       <div className="container">
@@ -100,21 +105,25 @@ class Home extends React.Component {
     );
   }
 }
+
 class LoggedIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       jokes: []
     };
+
     this.serverRequest = this.serverRequest.bind(this);
     this.logout = this.logout.bind(this);
   }
+
   logout() {
     localStorage.removeItem("id_token");
     localStorage.removeItem("access_token");
     localStorage.removeItem("profile");
     location.reload();
   }
+
   serverRequest() {
     $.get("http://localhost:3000/api/jokes", res => {
       this.setState({
@@ -122,9 +131,11 @@ class LoggedIn extends React.Component {
       });
     });
   }
+
   componentDidMount() {
     this.serverRequest();
   }
+
   render() {
     return (
       <div className="container">
@@ -150,10 +161,13 @@ class Joke extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      liked: ""
-    }
+      liked: "",
+      jokes: []
+    };
     this.like = this.like.bind(this);
+    this.serverRequest = this.serverRequest.bind(this);
   }
+
   like() {
     let joke = this.props.joke;
     this.serverRequest(joke);
@@ -167,26 +181,27 @@ class Joke extends React.Component {
         this.setState({ liked: "Liked!", jokes: res });
         this.props.jokes = res;
       }
-  );
+    );
   }
+
   render() {
     return (
       <div className="col-xs-4">
         <div className="panel panel-default">
-          <div className="panel-heading">#{this.props.joke.id} <span className="pull-right">{this.state.liked}</span></div>
-          <div className="panel-body">
-            {this.props.joke.joke}
+          <div className="panel-heading">
+            #{this.props.joke.id}{" "}
+            <span className="pull-right">{this.state.liked}</span>
           </div>
+          <div className="panel-body joke-hld">{this.props.joke.joke}</div>
           <div className="panel-footer">
             {this.props.joke.likes} Likes &nbsp;
             <a onClick={this.like} className="btn btn-default">
-              <span className="glyphicon glyphicon-thumbs-up"></span>
+              <span className="glyphicon glyphicon-thumbs-up" />
             </a>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
-
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById("app"));
